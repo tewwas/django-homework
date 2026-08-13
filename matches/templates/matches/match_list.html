@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'matches' %}">Все матчи</a> |
+        <a href="{% url 'matches_live' %}">Матчи сейчас</a> |
+        <a href="{% url 'matches_future' %}">Предстоящие</a>
+    </nav>
+
+    <h1>{{ title }}</h1>
+
+    {% if matches %}
+        {% for match in matches %}
+            <article>
+                <h2>{{ match.team1 }} — {{ match.team2 }}</h2>
+
+                <p>
+                    <strong>Начало:</strong>
+                    {{ match.start_time|date:"d.m.Y H:i" }}
+                </p>
+
+                <p>
+                    <strong>Окончание:</strong>
+                    {{ match.end_time|date:"d.m.Y H:i" }}
+                </p>
+
+                <p>
+                    <strong>Место:</strong>
+                    {{ match.location }}
+                </p>
+
+                <p>
+                    <strong>Счёт:</strong>
+                    {{ match.score_team1 }} : {{ match.score_team2 }}
+                </p>
+
+                {% if match.winner %}
+                    <p>
+                        <strong>Победитель:</strong>
+                        {{ match.winner }}
+                    </p>
+                {% endif %}
+            </article>
+
+            <hr>
+        {% endfor %}
+    {% else %}
+        <p>Матчей нет.</p>
+    {% endif %}
+</body>
+</html>
