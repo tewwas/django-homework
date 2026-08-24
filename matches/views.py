@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.utils import timezone
 
 from .models import Match
@@ -48,5 +48,21 @@ def matches_future(request):
         {
             "matches": matches,
             "title": "Предстоящие матчи",
+        },
+    )
+
+
+def match_detail(request, match_id):
+    match = get_object_or_404(
+        Match.objects.select_related("tournament"),
+        pk=match_id,
+    )
+
+    return render(
+        request,
+        "matches/match_detail.html",
+        {
+            "match": match,
+            "title": f"{match.team1} — {match.team2}",
         },
     )

@@ -4,12 +4,18 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 
-from .models import Match
+from .models import Match, SportTournament
 
 
 class MatchViewsTests(TestCase):
     def setUp(self):
         now = timezone.now()
+
+        self.tournament = SportTournament.objects.create(
+            name="Summer Cup",
+            start_date=now.date(),
+            end_date=now.date() + timedelta(days=7),
+        )
 
         self.old_match = Match.objects.create(
             location="Arena 1",
@@ -25,6 +31,7 @@ class MatchViewsTests(TestCase):
             end_time=now + timedelta(hours=1),
             team1="Team C",
             team2="Team D",
+            tournament=self.tournament,
         )
 
         self.future_match = Match.objects.create(
@@ -80,3 +87,34 @@ class MatchViewsTests(TestCase):
                 self.later_match,
             ],
         )
+
+    def test_match_detail(self):
+        response = self.client.get(
+            reverse("match_detail", args=[self.live_match.id])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["match"], self.live_match)
+
+        self.assertContains(response, "Team C")
+        self.assertContains(response, "Team D")
+        self.assertContains(response, "Arena 2")
+
+        self.assertContains(response, "Summer Cup")
+
+        self.assertContains(
+            response,
+            self.tournament.start_date.strftime("%d.%m.%Y"),
+        )
+
+        self.assertContains(
+            response,
+            self.tournament.end_date.strftime("%d.%m.%Y"),
+        )
+
+    def test_match_detail_not_found(self):
+        response = self.client.get(
+            reverse("match_detail", args=[999999])
+        )
+
+        self.assertEqual(response.status_code, 404)

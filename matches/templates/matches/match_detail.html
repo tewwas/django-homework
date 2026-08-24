@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'matches' %}">Все матчи</a> |
+        <a href="{% url 'matches_live' %}">Матчи сейчас</a> |
+        <a href="{% url 'matches_future' %}">Предстоящие</a>
+    </nav>
+
+    <h1>{{ match.team1 }} — {{ match.team2 }}</h1>
+
+    <p>
+        <strong>Начало:</strong>
+        {{ match.start_time|date:"d.m.Y H:i" }}
+    </p>
+
+    <p>
+        <strong>Окончание:</strong>
+        {{ match.end_time|date:"d.m.Y H:i" }}
+    </p>
+
+    <p>
+        <strong>Место:</strong>
+        {{ match.location }}
+    </p>
+
+    <p>
+        <strong>Счёт:</strong>
+        {{ match.score_team1 }} : {{ match.score_team2 }}
+    </p>
+
+    {% if match.winner %}
+        <p>
+            <strong>Победитель:</strong>
+            {{ match.winner }}
+        </p>
+    {% endif %}
+
+    <h2>Турнир</h2>
+
+    {% if match.tournament %}
+        <p>
+            <strong>Название:</strong>
+            {{ match.tournament.name }}
+        </p>
+
+        <p>
+            <strong>Дата начала:</strong>
+            {{ match.tournament.start_date|date:"d.m.Y" }}
+        </p>
+
+        <p>
+            <strong>Дата окончания:</strong>
+            {{ match.tournament.end_date|date:"d.m.Y" }}
+        </p>
+    {% else %}
+        <p>Турнир не указан.</p>
+    {% endif %}
+
+    <p>
+        <a href="{% url 'matches' %}">← Вернуться к списку матчей</a>
+    </p>
+</body>
+</html>

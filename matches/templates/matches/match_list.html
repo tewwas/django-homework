@@ -16,7 +16,11 @@
     {% if matches %}
         {% for match in matches %}
             <article>
-                <h2>{{ match.team1 }} — {{ match.team2 }}</h2>
+                <h2>
+                    <a href="{% url 'match_detail' match.id %}">
+                        {{ match.team1 }} — {{ match.team2 }}
+                    </a>
+                </h2>
 
                 <p>
                     <strong>Начало:</strong>
@@ -42,6 +46,13 @@
                     <p>
                         <strong>Победитель:</strong>
                         {{ match.winner }}
+                    </p>
+                {% endif %}
+
+                {% if match.tournament %}
+                    <p>
+                        <strong>Турнир:</strong>
+                        {{ match.tournament.name }}
                     </p>
                 {% endif %}
             </article>
