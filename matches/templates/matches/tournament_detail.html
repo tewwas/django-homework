@@ -12,16 +12,28 @@
         <a href="{% url 'tournaments' %}">Турниры</a>
     </nav>
 
-    <h1>{{ title }}</h1>
+    <h1>{{ tournament.name }}</h1>
+
+    <p>
+        <strong>Дата начала:</strong>
+        {{ tournament.start_date|date:"d.m.Y" }}
+    </p>
+
+    <p>
+        <strong>Дата окончания:</strong>
+        {{ tournament.end_date|date:"d.m.Y" }}
+    </p>
+
+    <h2>Матчи</h2>
 
     {% if matches %}
         {% for match in matches %}
             <article>
-                <h2>
+                <h3>
                     <a href="{% url 'match_detail' match.id %}">
                         {{ match.team1 }} — {{ match.team2 }}
                     </a>
-                </h2>
+                </h3>
 
                 <p>
                     <strong>Начало:</strong>
@@ -31,11 +43,6 @@
                 <p>
                     <strong>Окончание:</strong>
                     {{ match.end_time|date:"d.m.Y H:i" }}
-                </p>
-
-                <p>
-                    <strong>Место:</strong>
-                    {{ match.location }}
                 </p>
 
                 <p>
@@ -49,21 +56,18 @@
                         {{ match.winner }}
                     </p>
                 {% endif %}
-
-                {% if match.tournament %}
-                    <p>
-                        <strong>Турнир:</strong>
-                        <a href="{% url 'tournament_detail' match.tournament.id %}">
-                            {{ match.tournament.name }}
-                        </a>
-                    </p>
-                {% endif %}
             </article>
 
             <hr>
         {% endfor %}
     {% else %}
-        <p>Матчей нет.</p>
+        <p>Матчей в этом турнире нет.</p>
     {% endif %}
+
+    <p>
+        <a href="{% url 'tournaments' %}">
+            ← Вернуться к списку турниров
+        </a>
+    </p>
 </body>
 </html>

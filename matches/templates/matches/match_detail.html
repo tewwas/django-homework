@@ -8,7 +8,8 @@
     <nav>
         <a href="{% url 'matches' %}">Все матчи</a> |
         <a href="{% url 'matches_live' %}">Матчи сейчас</a> |
-        <a href="{% url 'matches_future' %}">Предстоящие</a>
+        <a href="{% url 'matches_future' %}">Предстоящие</a> |
+        <a href="{% url 'tournaments' %}">Турниры</a>
     </nav>
 
     <h1>{{ match.team1 }} — {{ match.team2 }}</h1>
@@ -45,7 +46,9 @@
     {% if match.tournament %}
         <p>
             <strong>Название:</strong>
-            {{ match.tournament.name }}
+            <a href="{% url 'tournament_detail' match.tournament.id %}">
+                {{ match.tournament.name }}
+            </a>
         </p>
 
         <p>

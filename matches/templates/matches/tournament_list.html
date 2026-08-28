@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'matches' %}">Все матчи</a> |
+        <a href="{% url 'matches_live' %}">Матчи сейчас</a> |
+        <a href="{% url 'matches_future' %}">Предстоящие</a> |
+        <a href="{% url 'tournaments' %}">Турниры</a>
+    </nav>
+
+    <h1>{{ title }}</h1>
+
+    {% if tournaments %}
+        {% for tournament in tournaments %}
+            <article>
+                <h2>
+                    <a href="{% url 'tournament_detail' tournament.id %}">
+                        {{ tournament.name }}
+                    </a>
+                    ({{ tournament.finished_matches_count }})
+                </h2>
+
+                <p>
+                    <strong>Дата начала:</strong>
+                    {{ tournament.start_date|date:"d.m.Y" }}
+                </p>
+
+                <p>
+                    <strong>Дата окончания:</strong>
+                    {{ tournament.end_date|date:"d.m.Y" }}
+                </p>
+            </article>
+
+            <hr>
+        {% endfor %}
+    {% else %}
+        <p>Турниров нет.</p>
+    {% endif %}
+</body>
+</html>
