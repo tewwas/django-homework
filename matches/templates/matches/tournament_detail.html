@@ -15,13 +15,13 @@
     <h1>{{ tournament.name }}</h1>
 
     <p>
-        <strong>Дата начала:</strong>
-        {{ tournament.start_date|date:"d.m.Y" }}
+        <strong>Дата и время начала:</strong>
+        {{ tournament.start_date|date:"d.m.Y H:i" }}
     </p>
 
     <p>
-        <strong>Дата окончания:</strong>
-        {{ tournament.end_date|date:"d.m.Y" }}
+        <strong>Дата и время окончания:</strong>
+        {{ tournament.end_date|date:"d.m.Y H:i" }}
     </p>
 
     <h2>Матчи</h2>

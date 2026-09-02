@@ -31,7 +31,7 @@ def matches_live(request):
         "matches/match_list.html",
         {
             "matches": matches,
-            "title": "Матчи в прямом эфире",
+            "title": "Матчи сейчас",
         },
     )
 

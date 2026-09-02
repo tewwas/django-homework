@@ -10,8 +10,8 @@ class Player(models.Model):
 
 class SportTournament(models.Model):
     name = models.CharField(max_length=200)
-    start_date = models.DateField()
-    end_date = models.DateField()
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
 
     def __str__(self):
         return self.name
