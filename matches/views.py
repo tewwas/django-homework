@@ -1,8 +1,11 @@
 from django.db.models import Count, Q
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 
+from .forms import MatchForm, TournamentForm
 from .models import Match, SportTournament
+from django.shortcuts import get_object_or_404, redirect, render
+from .forms import MatchForm, TournamentForm
 
 
 def matches_list(request):
@@ -69,6 +72,50 @@ def match_detail(request, match_id):
     )
 
 
+def match_create(request):
+    if request.method == "POST":
+        form = MatchForm(request.POST)
+
+        if form.is_valid():
+            match = form.save()
+            return redirect("match_detail", match_id=match.id)
+    else:
+        form = MatchForm()
+
+    return render(
+        request,
+        "matches/match_form.html",
+        {
+            "form": form,
+            "title": "Создание матча",
+            "button_text": "Создать матч",
+        },
+    )
+
+
+def match_edit(request, match_id):
+    match = get_object_or_404(Match, pk=match_id)
+
+    if request.method == "POST":
+        form = MatchForm(request.POST, instance=match)
+
+        if form.is_valid():
+            match = form.save()
+            return redirect("match_detail", match_id=match.id)
+    else:
+        form = MatchForm(instance=match)
+
+    return render(
+        request,
+        "matches/match_form.html",
+        {
+            "form": form,
+            "title": "Редактирование матча",
+            "button_text": "Сохранить изменения",
+        },
+    )
+
+
 def tournaments_list(request):
     now = timezone.now()
 
@@ -108,5 +155,160 @@ def tournament_detail(request, tournament_id):
             "tournament": tournament,
             "matches": matches,
             "title": tournament.name,
+        },
+    )
+
+
+def tournament_create(request):
+    if request.method == "POST":
+        form = TournamentForm(request.POST)
+
+        if form.is_valid():
+            tournament = form.save()
+            return redirect(
+                "tournament_detail",
+                tournament_id=tournament.id,
+            )
+    else:
+        form = TournamentForm()
+
+    return render(
+        request,
+        "matches/tournament_form.html",
+        {
+            "form": form,
+            "title": "Создание турнира",
+            "button_text": "Создать турнир",
+        },
+    )
+
+
+def tournament_edit(request, tournament_id):
+    tournament = get_object_or_404(
+        SportTournament,
+        pk=tournament_id,
+    )
+
+    if request.method == "POST":
+        form = TournamentForm(
+            request.POST,
+            instance=tournament,
+        )
+
+        if form.is_valid():
+            tournament = form.save()
+            return redirect(
+                "tournament_detail",
+                tournament_id=tournament.id,
+            )
+    else:
+        form = TournamentForm(instance=tournament)
+
+    return render(
+        request,
+        "matches/tournament_form.html",
+        {
+            "form": form,
+            "title": "Редактирование турнира",
+            "button_text": "Сохранить изменения",
+        },
+    )
+
+def match_create(request):
+    if request.method == "POST":
+        form = MatchForm(request.POST)
+
+        if form.is_valid():
+            match = form.save()
+            return redirect("match_detail", match_id=match.id)
+    else:
+        form = MatchForm()
+
+    return render(
+        request,
+        "matches/match_form.html",
+        {
+            "form": form,
+            "title": "Создание матча",
+            "button_text": "Создать матч",
+        },
+    )
+
+
+def match_edit(request, match_id):
+    match = get_object_or_404(Match, pk=match_id)
+
+    if request.method == "POST":
+        form = MatchForm(request.POST, instance=match)
+
+        if form.is_valid():
+            match = form.save()
+            return redirect("match_detail", match_id=match.id)
+    else:
+        form = MatchForm(instance=match)
+
+    return render(
+        request,
+        "matches/match_form.html",
+        {
+            "form": form,
+            "title": "Редактирование матча",
+            "button_text": "Сохранить",
+        },
+    )
+
+
+def tournament_create(request):
+    if request.method == "POST":
+        form = TournamentForm(request.POST)
+
+        if form.is_valid():
+            tournament = form.save()
+            return redirect(
+                "tournament_detail",
+                tournament_id=tournament.id,
+            )
+    else:
+        form = TournamentForm()
+
+    return render(
+        request,
+        "matches/tournament_form.html",
+        {
+            "form": form,
+            "title": "Создание турнира",
+            "button_text": "Создать турнир",
+        },
+    )
+
+
+def tournament_edit(request, tournament_id):
+    tournament = get_object_or_404(
+        SportTournament,
+        pk=tournament_id,
+    )
+
+    if request.method == "POST":
+        form = TournamentForm(
+            request.POST,
+            instance=tournament,
+        )
+
+        if form.is_valid():
+            tournament = form.save()
+            return redirect(
+                "tournament_detail",
+                tournament_id=tournament.id,
+            )
+    else:
+        form = TournamentForm(instance=tournament)
+
+    return render(
+        request,
+        "matches/tournament_form.html",
+        {
+            "form": form,
+            "title": "Редактирование турнира",
+            "button_text": "Сохранить",
         },
     )

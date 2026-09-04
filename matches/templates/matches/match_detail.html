@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+\<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -41,6 +41,12 @@
         </p>
     {% endif %}
 
+    <p>
+        <a href="{% url 'match_edit' match.id %}">
+            Редактировать матч
+        </a>
+    </p>
+
     <h2>Турнир</h2>
 
     {% if match.tournament %}
@@ -52,20 +58,22 @@
         </p>
 
         <p>
-            <strong>Дата начала:</strong>
-            {{ match.tournament.start_date|date:"d.m.Y" }}
+            <strong>Дата и время начала:</strong>
+            {{ match.tournament.start_date|date:"d.m.Y H:i" }}
         </p>
 
         <p>
-            <strong>Дата окончания:</strong>
-            {{ match.tournament.end_date|date:"d.m.Y" }}
+            <strong>Дата и время окончания:</strong>
+            {{ match.tournament.end_date|date:"d.m.Y H:i" }}
         </p>
     {% else %}
         <p>Турнир не указан.</p>
     {% endif %}
 
     <p>
-        <a href="{% url 'matches' %}">← Вернуться к списку матчей</a>
+        <a href="{% url 'matches' %}">
+            ← Вернуться к списку матчей
+        </a>
     </p>
 </body>
 </html>

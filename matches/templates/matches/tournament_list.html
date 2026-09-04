@@ -14,6 +14,12 @@
 
     <h1>{{ title }}</h1>
 
+    <p>
+        <a href="{% url 'tournament_create' %}">
+            + Создать турнир
+        </a>
+    </p>
+
     {% if tournaments %}
         {% for tournament in tournaments %}
             <article>
@@ -32,6 +38,12 @@
                 <p>
                     <strong>Окончание:</strong>
                     {{ tournament.end_date|date:"d.m.Y H:i" }}
+                </p>
+
+                <p>
+                    <a href="{% url 'tournament_edit' tournament.id %}">
+                        Редактировать турнир
+                    </a>
                 </p>
             </article>
 
